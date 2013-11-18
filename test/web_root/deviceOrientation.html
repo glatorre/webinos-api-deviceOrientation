@@ -2,10 +2,34 @@
 <head>
 	<title>webinos device orientation</title>
 	<script type="text/javascript" src="/webinos.js"></script>
-  <script src="/js/jquery-1.8.2.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js" type="text/javascript"></script>
 	<script type="text/javascript">
 
+            var onDeviceOrientationEvent = function(event) {
+              // process event.alpha, event.beta and event.gamma
+                    $('#lastevent').html('<li> Latest Orientation Event: alpha ' + event.alpha 
+                        + ' beta ' + event.beta + ' gamma ' + event.gamma + '</li>');
+              
+                   // gamma is the left-to-right tilt in degrees, where right is positive
+                   var tiltLR = event.gamma;
+                   // beta is the front-to-back tilt in degrees, where front is positive
+                   var tiltFB = event.beta;
+                   // alpha is the compass direction the device is facing in degrees
+                   var dir = event.alpha;
+                   
+                   
+                // Apply the transform to the image
+                  
+                
+                document.getElementById("pic").style.webkitTransform = "rotate(" + tiltLR + "deg) rotate3d(1,0,0, " + (tiltFB * -1) + "deg)";
 
+                document.getElementById("pic").style.MozTransform = "rotate(" + tiltLR + "deg) rotate3d(1,0,0, " + (tiltFB * -1) + "deg)";
+                  
+                document.getElementById("pic").style.transform = "rotate(" + tiltLR + 
+                    "deg) rotate3d(1,0,0, " + (tiltFB * -1) + "deg)";
+          
+                  
+          }
             $(document).ready(function() {
 
                 function printInfo(data) {
@@ -42,45 +66,14 @@
                     
                     
                     $('#registerOrientation').bind('click', function() {
-                    	
-                    	
-                    	
-                   	    devOrientationToUse.addEventListener("deviceorientation", function(event) {
-          					// process event.alpha, event.beta and event.gamma
-                   	    	$('#lastevent').html('<li> Latest Orientation Event: alpha ' + event.alpha 
-                   	    			+ ' beta ' + event.beta + ' gamma ' + event.gamma + '</li>');
-          					
-                   	     // gamma is the left-to-right tilt in degrees, where right is positive
-                   	     var tiltLR = event.gamma;
-                   	     // beta is the front-to-back tilt in degrees, where front is positive
-                   	     var tiltFB = event.beta;
-                   	     // alpha is the compass direction the device is facing in degrees
-                   	     var dir = event.alpha;
-                   	     
-                   	     
-	                   	// Apply the transform to the image
-    	               	  
-	                   	
-	                   	document.getElementById("pic").style.webkitTransform = "rotate(" + tiltLR + "deg) rotate3d(1,0,0, " + (tiltFB * -1) + "deg)";
-
-	                   	document.getElementById("pic").style.MozTransform = "rotate(" + tiltLR + "deg) rotate3d(1,0,0, " + (tiltFB * -1) + "deg)";
-            	       	  
-            	       	document.getElementById("pic").style.transform = "rotate(" + tiltLR + 
-                   		    "deg) rotate3d(1,0,0, " + (tiltFB * -1) + "deg)";
-         				
-                	   	  
-      					}, true);
+                   	    devOrientationToUse.addEventListener("deviceorientation", onDeviceOrientationEvent , true);
                     	
                     });
 
                      
                      $('#unregisterOrientation').bind('click', function() {
-                    	 
-                     });
-
-
-
-                    
+                          devOrientationToUse.removeEventListener("deviceorientation", onDeviceOrientationEvent, false);
+                     });    
             });
         </script>
      
@@ -90,7 +83,7 @@
 <br>
 <br>
 	<div>
-    <img src="/webinos-api-deviceOrientation/test/web_root/webinos.png" id="pic" width="200px">
+  		<img src="webinos.png" id="pic" width="200px">
 	</div>
 	<br>
 	<br>

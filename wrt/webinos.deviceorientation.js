@@ -22,16 +22,12 @@ WebinosDeviceOrientation.prototype.bindService = function (bindCB, serviceId) {
     this.Acceleration = Acceleration;
     this.RotationRate = RotationRate;
     
-    
-    
-    
 	if (typeof bindCB.onBind === 'function') {
 		bindCB.onBind(this);
 	};
 }
 
 function addEventListener(type, listener, useCapture) {
-    
     if(_eventIdsDo.indexOf(type) != -1){	
     
             console.log("LISTENER"+ listener);
@@ -122,7 +118,7 @@ function removeEventListener(type, listener, useCapture) {
 		for(var i = 0; i < _referenceMappingDo.length; i++){
 			console.log("Reference" + i + ": " + _referenceMappingDo[i][0]);
 			console.log("Handler" + i + ": " + _referenceMappingDo[i][1]);
-			if(_referenceMappingDo[i][1] == listener){
+			if(_referenceMappingDo[i][1].toString().replace(/ /g,'') === listener.toString().replace(/ /g,'')){
 					var arguments = new Array();
 					arguments[0] = _referenceMappingDo[i][0];
 					arguments[1] = type;
@@ -136,6 +132,8 @@ function removeEventListener(type, listener, useCapture) {
 							callOnError(error);
 						}
 					);
+                    //GLT
+                    _referenceMappingDo.splice(i,1);
 					break;			
 			}	
     }
