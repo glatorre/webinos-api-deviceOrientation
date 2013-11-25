@@ -126,13 +126,12 @@ function removeEventListener(type, listener, useCapture) {
                     var rpc = webinos.rpcHandler.createRPC(this, "removeEventListener", arguments);
 					webinos.rpcHandler.executeRPC(rpc,
 						function(result){
-							callOnSuccess(result);
+							//callOnSuccess(result);
 						},
 						function(error){
-							callOnError(error);
+							//callOnError(error);
 						}
 					);
-                    //GLT
                     _referenceMappingDo.splice(i,1);
 					break;			
 			}	
